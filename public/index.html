@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+</head>
+<body>
+  <h1>Sentiment Analysis</h1>
+  Sentence : <input type="text" id="input_sentence" placeholder="Enter a sentence..." autofocus="true"/><button onclick="get_sentiment()">send</button>
+  <p id="sentiment">Sentiment :</p>
+  <i style="color: red" id="error"></i>
+</body>
+</html>
+
+<script src="config.js"></script>  
+<script>
+function get_sentiment(){
+
+  const input = document.getElementById('input_sentence').value.trim();
+
+if(!input){
+  document.getElementById('error').innerHTML = 'The sentence is required !';
+  document.getElementById('sentiment').innerHTML = 'Sentiment :';
+  return;
+}
+
+document.getElementById('error').innerHTML = '';
+
+const data = {sentence: input};
+
+fetch(window.appConfig.API_URL, {
+  method: 'post',
+  headers: {
+        'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data)
+})
+.then(response => response.json())
+.then(response => {
+  document.getElementById('sentiment').innerHTML = 'Sentiment : ' + response.sentiment;
+})
+.catch(error => {
+  document.getElementById('error').innerHTML = 'Unable to fetch API';
+  console.error(error);
+});
+}
+</script>
