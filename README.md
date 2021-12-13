@@ -11,4 +11,11 @@
 Run the following command :
 ```
 docker-compose up
+run
+```
+
+For testing, after starting the API, run :
+```
+pip3 install -r api/tests/requirements.txt
+pytest
 ```
