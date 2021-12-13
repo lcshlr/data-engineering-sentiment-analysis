@@ -2,10 +2,11 @@
 - hosts: all
   tasks:
     - name: Clone peace watcher project
-        git:
-            repo: "https://github.com/lcshlr/data-engineering-sentiment-analysis"
-            dest: "{{ ansible_env.HOME }}/data-engineering-sentiment-analysis"
-    
+      git:
+       repo: "https://github.com/lcshlr/data-engineering-sentiment-analysis"
+       dest: "{{ ansible_env.HOME }}/data-engineering-sentiment-analysis"
+       version: feature/devops
+       
     - name: Setup API IP 
       lineinfile: 
        dest: {{ ansible_env.HOME }}/data-engineering-sentiment-analysis/public/config.js
