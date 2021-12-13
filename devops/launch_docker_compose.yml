@@ -9,7 +9,7 @@
        
     - name: Setup API IP 
       lineinfile: 
-       dest: {{ ansible_env.HOME }}/data-engineering-sentiment-analysis/public/config.js
+       dest: "{{ ansible_env.HOME }}/data-engineering-sentiment-analysis/public/config.js"
        regexp:  'window.appConfig'
        line:  "window.appConfig = {'API_URL' : 'http://{{ public_ip }}:5000'}"
     
