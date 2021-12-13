@@ -8,6 +8,10 @@ variable "env" {
   default = "dev"
 }
 
+variable "EC2_IP" {
+  type = string
+}
+
 
 terraform {
   backend "s3" {
