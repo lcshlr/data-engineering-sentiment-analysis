@@ -8,6 +8,10 @@ variable "env" {
   default = "dev"
 }
 
+variable "EC2_IP" {
+  type = string
+}
+
 
 terraform {
   backend "s3" {
@@ -63,6 +67,12 @@ resource "aws_security_group" "sg-docker" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
+    from_port       = 5000
+    protocol        = "tcp"
+    to_port         = 5000
+    cidr_blocks = ["94.239.158.84/32","46.193.68.237/32" ]
+  }
+  ingress {
     from_port       = 80
     protocol        = "tcp"
     to_port         = 80
@@ -72,7 +82,7 @@ resource "aws_security_group" "sg-docker" {
     from_port   = 22
     protocol    = "tcp"
     to_port     = 22
-    cidr_blocks = ["94.239.158.84/32","46.193.68.237/32"] # on authorise en entrée de l'ASG que le flux venant de l'ELB
+    cidr_blocks = ["94.239.158.84/32","46.193.68.237/32","${var.EC2_IP}/32"] # on authorise en entrée de l'ASG que le flux venant de l'ELB
   }
   lifecycle {
     create_before_destroy = true

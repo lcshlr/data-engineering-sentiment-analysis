@@ -1,23 +1,22 @@
 ---
 - hosts: all
   tasks:
+    - name: Clone peace watcher project
+      git:
+        repo: "https://github.com/lcshlr/data-engineering-sentiment-analysis"
+        dest: "{{ ansible_env.HOME }}/data-engineering-sentiment-analysis"
+        version: feature/devops
+       
     - name: Setup API IP 
       lineinfile: 
-       dest: /home/ubuntu/docker/data-engineering-sentiment-analysis/public/config.js
-       regexp:  'window.appConfig'
-       line:  "window.appConfig = {'API_URL' : 'http://13.37.71.135:5000'}"
-    
-    - name: Stop all services
-      become: yes
-      docker_compose:
-        project_src: /home/ubuntu/docker/data-engineering-sentiment-analysis
-        build: no
-        stopped: yes
+        dest: "{{ ansible_env.HOME }}/data-engineering-sentiment-analysis/public/config.js"
+        regexp:  'window.appConfig'
+        line:  "window.appConfig = {'API_URL' : 'http://{{ public_ip }}:5000'}"
     
     - name: Launch Docker
       become: yes
       docker_compose:
-        project_src: /home/ubuntu/docker/data-engineering-sentiment-analysis
+        project_src: "{{ ansible_env.HOME }}/data-engineering-sentiment-analysis"
         files: docker-compose.yml
         build: yes
 
