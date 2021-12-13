@@ -72,7 +72,7 @@ resource "aws_security_group" "sg-docker" {
     from_port   = 22
     protocol    = "tcp"
     to_port     = 22
-    cidr_blocks = ["94.239.158.84/32","46.193.68.237/32"] # on authorise en entrée de l'ASG que le flux venant de l'ELB
+    cidr_blocks = ["94.239.158.84/32","46.193.68.237/32","${var.EC2_IP}/32"] # on authorise en entrée de l'ASG que le flux venant de l'ELB
   }
   lifecycle {
     create_before_destroy = true
